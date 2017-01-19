@@ -16,7 +16,7 @@ import os
 
 font_folder = "/usr/share/fonts/truetype/"
 font_type = "/usr/share/fonts/truetype/fireflysung.ttf"
-sample_text = u"Hello World. by 江遲 (tsuân pōo tàn lo̍h khì)"
+sample_text = u"Hello World. by 台語八聲 (sai hóo pà pih kâu káu tshiūnn lo̍k)"
 
 
 def update_rect(instance, value):
@@ -32,9 +32,8 @@ class FontsList(GridLayout):
 		self.bind(minimum_height=self.setter('height'))
 		self.show_fonts_list()
 
-	def show_font(self, s_text, f_type, color):
-		#lbl = Label(text=s_text, font_name=f_type, font_size=16, size_hint_y=None, halign='left')
-		lbl = Label(text=s_text, font_name=f_type, font_size=16, size_hint_y=None, width=Window.width, text_size=(Window.width/self.cols, None))
+	def show_font(self, s_text, f_type, color, col_width, f_size):
+		lbl = Label(text=s_text, font_name=f_type, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
 		lbl.texture_update()
 		lbl.size = lbl.texture_size
 
@@ -48,8 +47,8 @@ class FontsList(GridLayout):
 		font_files = os.listdir(font_folder)
 
 		for f in font_files:
-			self.show_font(f, font_folder+f, [0.4, 0.4, 0.4])
-			self.show_font(sample_text, font_folder+f, [0.2, 0.2, 0.8])
+			self.show_font(f, font_folder+f, [0.4, 0.4, 0.4], Window.width/(self.cols)*0.6, 12)
+			self.show_font(sample_text, font_folder+f, [0.2, 0.2, 0.8], Window.width/self.cols*1.4, 16)
 		
 
 class TestApp(App):
