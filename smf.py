@@ -33,7 +33,11 @@ class FontsList(GridLayout):
 		self.show_fonts_list()
 
 	def show_font(self, s_text, f_type, color, col_width, f_size):
-		lbl = Label(text=s_text, font_name=f_type, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
+		if f_type != None:
+			lbl = Label(text=s_text, font_name=f_type, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
+		else:
+			lbl = Label(text=s_text, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
+			
 		lbl.texture_update()
 		lbl.size = lbl.texture_size
 
@@ -47,7 +51,7 @@ class FontsList(GridLayout):
 		font_files = os.listdir(font_folder)
 
 		for f in font_files:
-			self.show_font(f, font_folder+f, [0.4, 0.4, 0.4], Window.width/(self.cols)*0.6, 12)
+			self.show_font(f, None, [0.4, 0.4, 0.4], Window.width/(self.cols)*0.6, 12)
 			self.show_font(sample_text, font_folder+f, [0.2, 0.2, 0.8], Window.width/self.cols*1.4, 16)
 		
 
