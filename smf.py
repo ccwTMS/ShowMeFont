@@ -28,7 +28,7 @@ class FontsList(GridLayout):
 		super(FontsList, self).__init__(**kwargs)
 		self.cols=2
 		self.spacing=2
-		#self.size_hint_y=None
+		self.size_hint_y=None
 		self.bind(minimum_height=self.setter('height'))
 		self.show_fonts_list()
 
@@ -51,10 +51,25 @@ class FontsList(GridLayout):
 			self.show_font(sample_text, font_folder+f, [0.2, 0.2, 0.8], Window.width/self.cols*1.4, 16)
 		
 
+class FontsView(ScrollView):
+	layout = ObjectProperty(None)
+	
+	def __init__(self, **kwargs):
+		self.size_hint=(1, None)
+		self.size=(Window.width, Window.height)
+		super(FontsView, self).__init__(**kwargs)
+		self.display_view()
+
+	def display_view(self):
+		if self.layout:
+			self.remove_widget(self.layout)
+		self.layout = FontsList()
+		self.add_widget(self.layout)
+
 class TestApp(App):
 	def build(self):
-		self.Flist = FontsList()
-		return self.Flist
+		self.FView = FontsView()
+		return self.FView
 
 if __name__ == '__main__':
 	TestApp().run()
