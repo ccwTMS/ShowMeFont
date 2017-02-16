@@ -12,6 +12,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.graphics import Color, Rectangle
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.popup import Popup
 import os
 
 font_folder = "/usr/share/fonts/truetype/"
@@ -22,6 +24,17 @@ sample_text = u"Hello World. by 台語八聲 (sai hóo pà pih kâu káu tshiūn
 def update_rect(instance, value):
 	instance.rect.pos = instance.pos
 	instance.rect.size = instance.size
+
+class EachLabel(ButtonBehavior, Label):
+	def __init__(self, **kwargs):
+		super(EachLabel, self).__init__(**kwargs)
+
+	def on_press(self):
+		popup = Popup(title="ShowMeFont",
+			content=Label(text=font_folder+self.text),
+			size_hint=(None,None),
+			size=(Window.width,100))
+		popup.open()
 
 class FontsList(GridLayout):
 	def __init__(self, **kwargs):
@@ -36,7 +49,14 @@ class FontsList(GridLayout):
 		if f_type != None:
 			lbl = Label(text=s_text, font_name=f_type, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
 		else:
-			lbl = Label(text=s_text, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
+			lbl = EachLabel()
+			lbl.text = s_text
+			lbl.font_size = f_size
+			lbl.size_hint_y = None
+			lbl.size_hint_x = None
+			lbl.text_size=(col_width, None)
+
+			#lbl = Label(text=s_text, font_size=f_size, size_hint_y=None, size_hint_x=None, text_size=(col_width, None))
 			
 		lbl.texture_update()
 		lbl.size = lbl.texture_size
